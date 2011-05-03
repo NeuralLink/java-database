@@ -11,11 +11,11 @@ public class VideoGame
 {
   public static void main(String[] paramArrayOfString)
   {
-    Scanner localScanner = new Scanner(System.in);
+    Scanner instream = new Scanner(System.in);
     System.out.println("\nWelcome to the Video Game Database!\n");
     System.out.println("Are you an Administrator or a User?\n");
     System.out.print("1 - Administrator\n2 - User\n\nPlease enter a selection: ");
-    int i = localScanner.nextInt();
+    int i = instream.nextInt();
 
     if (i == 1)
     {
@@ -33,7 +33,7 @@ public class VideoGame
 
   public static void adminMenu()
   {
-    Scanner localScanner = new Scanner(System.in);
+    Scanner instream = new Scanner(System.in);
     int i = 1;
 
     while (i != 0)
@@ -47,7 +47,7 @@ public class VideoGame
       System.out.println("5 - View Reviewers\t10 - Games by Platform\t15 - Genre Search");
       System.out.println("\n0 - Exit");
       System.out.print("\nPlease select an option: ");
-      i = localScanner.nextInt();
+      i = instream.nextInt();
       System.out.println();
 
       switch (i) { case 0:
@@ -96,7 +96,7 @@ public class VideoGame
 
   public static void userMenu()
   {
-    Scanner localScanner = new Scanner(System.in);
+    Scanner instream = new Scanner(System.in);
     int i = 1;
 
     while (i != 0)
@@ -110,7 +110,7 @@ public class VideoGame
       System.out.println("5 - View Reviewers\t10 - Games by Platform\t15 - Genre Search");
       System.out.println("\n0 - Exit");
       System.out.print("\nPlease select an option: ");
-      i = localScanner.nextInt();
+      i = instream.nextInt();
       System.out.println();
 
       switch (i) { case 0:
@@ -151,749 +151,749 @@ public class VideoGame
   }
 
   public static void viewGames() {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Statement localStatement = localConnection.createStatement();
-      String str2 = "select GName, PubName, DevName, GenreName, Rating, ReleaseDate from GAME, DEVELOPER, PUBLISHER, GENRE where PublisherId = PubId and DeveloperId = DevId and GenreId = GenreType order by GId";
-      ResultSet localResultSet = localStatement.executeQuery(str2);
+      Statement stmt = conn.createStatement();
+      String qry = "select GName, PubName, DevName, GenreName, Rating, ReleaseDate from GAME, DEVELOPER, PUBLISHER, GENRE where PublisherId = PubId and DeveloperId = DevId and GenreId = GenreType order by GId";
+      ResultSet rs = stmt.executeQuery(qry);
 
       System.out.println("Title\t\t\tPublisher\tDeveloper\tGenre\tRating\t\tYear");
       System.out.println("-----\t\t\t---------\t---------\t-----\t------\t\t----");
-      while (localResultSet.next()) {
-        String str3 = localResultSet.getString("GName");
-        String str4 = localResultSet.getString("PubName");
-        String str5 = localResultSet.getString("DevName");
-        String str6 = localResultSet.getString("GenreName");
-        String str7 = localResultSet.getString("Rating");
-        int i = localResultSet.getInt("ReleaseDate");
-        System.out.println(str3 + "\t\t" + str4 + "\t" + str5 + "\t" + str6 + "\t" + str7 + "\t\t" + i);
+      while (rs.next()) {
+        String gname = rs.getString("GName");
+        String pubname = rs.getString("PubName");
+        String devname = rs.getString("DevName");
+        String genrename = rs.getString("GenreName");
+        String rating = rs.getString("Rating");
+        int releasedate = rs.getInt("ReleaseDate");
+        System.out.println(gname + "\t\t" + pubname + "\t" + devname + "\t" + genrename + "\t" + rating + "\t\t" + releasedate);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
 
   public static void viewDevelopers() {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Statement localStatement = localConnection.createStatement();
-      String str2 = "select DevName from DEVELOPER order by DevName";
-      ResultSet localResultSet = localStatement.executeQuery(str2);
+      Statement stmt = conn.createStatement();
+      String qry = "select DevName from DEVELOPER order by DevName";
+      ResultSet rs = stmt.executeQuery(qry);
 
       System.out.println("Developers");
       System.out.println("----------");
-      while (localResultSet.next()) {
-        String str3 = localResultSet.getString("DevName");
-        System.out.println(str3);
+      while (rs.next()) {
+        String devname = rs.getString("DevName");
+        System.out.println(devname);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
 
   public static void viewPublishers() {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Statement localStatement = localConnection.createStatement();
-      String str2 = "select PubName from PUBLISHER order by PubName";
-      ResultSet localResultSet = localStatement.executeQuery(str2);
+      Statement stmt = conn.createStatement();
+      String qry = "select PubName from PUBLISHER order by PubName";
+      ResultSet rs = stmt.executeQuery(qry);
 
       System.out.println("Publishers");
       System.out.println("----------");
-      while (localResultSet.next()) {
-        String str3 = localResultSet.getString("PubName");
-        System.out.println(str3);
+      while (rs.next()) {
+        String pubname = rs.getString("PubName");
+        System.out.println(pubname);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
 
   public static void viewReviews() {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Statement localStatement = localConnection.createStatement();
-      String str2 = "select GName, ReviewerName, ReviewRating from GAME, REVIEW, REVIEWER where GId = GameRevId and ReviewerNum = ReviewerId order by GId";
-      ResultSet localResultSet = localStatement.executeQuery(str2);
+      Statement stmt = conn.createStatement();
+      String qry = "select GName, ReviewerName, ReviewRating from GAME, REVIEW, REVIEWER where GId = GameRevId and ReviewerNum = ReviewerId order by GId";
+      ResultSet rs = stmt.executeQuery(qry);
 
       System.out.println("Title\t\tReviewer\t\tRating");
       System.out.println("-----\t\t--------\t\t------");
-      while (localResultSet.next()) {
-        String str3 = localResultSet.getString("GName");
-        String str4 = localResultSet.getString("ReviewerName");
-        int i = localResultSet.getInt("ReviewRating");
-        System.out.println(str3 + "\t\t" + str4 + "\t\t" + i);
+      while (rs.next()) {
+        String gname = rs.getString("GName");
+        String reviewername = rs.getString("ReviewerName");
+        int reviewrating = rs.getInt("ReviewRating");
+        System.out.println(gname + "\t\t" + reviewername + "\t\t" + reviewrating);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
 
   public static void viewReviewers() {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Statement localStatement = localConnection.createStatement();
-      String str2 = "select ReviewerName from REVIEWER order by ReviewerName";
-      ResultSet localResultSet = localStatement.executeQuery(str2);
+      Statement stmt = conn.createStatement();
+      String qry = "select ReviewerName from REVIEWER order by ReviewerName";
+      ResultSet rs = stmt.executeQuery(qry);
 
       System.out.println("Reviewers");
       System.out.println("---------");
-      while (localResultSet.next()) {
-        String str3 = localResultSet.getString("ReviewerName");
-        System.out.println(str3);
+      while (rs.next()) {
+        String reviewername = rs.getString("ReviewerName");
+        System.out.println(reviewername);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
 
   public static void viewPlatforms() {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Statement localStatement = localConnection.createStatement();
-      String str2 = "select PlatName from PLATFORM order by PlatName";
-      ResultSet localResultSet = localStatement.executeQuery(str2);
+      Statement stmt = conn.createStatement();
+      String qry = "select PlatName from PLATFORM order by PlatName";
+      ResultSet rs = stmt.executeQuery(qry);
 
       System.out.println("Platforms");
       System.out.println("---------");
-      while (localResultSet.next()) {
-        String str3 = localResultSet.getString("PlatName");
-        System.out.println(str3);
+      while (rs.next()) {
+        String platname = rs.getString("PlatName");
+        System.out.println(platname);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
 
   public static void viewCharacters() {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Statement localStatement = localConnection.createStatement();
-      String str2 = "select CharName from MAIN_CHARACTERS order by CharName";
-      ResultSet localResultSet = localStatement.executeQuery(str2);
+      Statement stmt = conn.createStatement();
+      String qry = "select CharName from MAIN_CHARACTERS order by CharName";
+      ResultSet rs = stmt.executeQuery(qry);
 
       System.out.println("Main Characters");
       System.out.println("---------------");
-      while (localResultSet.next()) {
-        String str3 = localResultSet.getString("CharName");
-        System.out.println(str3);
+      while (rs.next()) {
+        String charname = rs.getString("CharName");
+        System.out.println(charname);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
 
   public static void selectPlatform() {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Statement localStatement = localConnection.createStatement();
-      String str2 = "select PlatId, PlatName from PLATFORM order by PlatId";
-      ResultSet localResultSet = localStatement.executeQuery(str2);
+      Statement stmt = conn.createStatement();
+      String qry = "select PlatId, PlatName from PLATFORM order by PlatId";
+      ResultSet rs = stmt.executeQuery(qry);
 
       System.out.println("ID\tPlatform");
       System.out.println("--\t--------");
-      while (localResultSet.next()) {
-        int i = localResultSet.getInt("PlatId");
-        String str3 = localResultSet.getString("PlatName");
-        System.out.println(i + "\t" + str3);
+      while (rs.next()) {
+        int platid = rs.getInt("PlatId");
+        String platname = rs.getString("PlatName");
+        System.out.println(platid + "\t" + platname);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
 
-      Scanner localScanner = new Scanner(System.in);
+      Scanner instream = new Scanner(System.in);
       System.out.print("Select an ID to view that platform's games: ");
-      int j = localScanner.nextInt();
+      int j = instream.nextInt();
 
-      str2 = "select GName from GAME, PLATFORM_SET, PLATFORM where GId = GamePlatId and PlatformId =" + j + " group by GName order by GName";
-      localResultSet = localStatement.executeQuery(str2);
+      qry = "select GName from GAME, PLATFORM_SET, PLATFORM where GId = GamePlatId and PlatformId =" + j + " group by GName order by GName";
+      rs = stmt.executeQuery(qry);
 
       System.out.println("\nSelected Titles");
       System.out.println("---------------");
-      while (localResultSet.next()) {
-        String str4 = localResultSet.getString("GName");
+      while (rs.next()) {
+        String str4 = rs.getString("GName");
         System.out.println(str4);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
 
   public static void gameReviews() {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Statement localStatement = localConnection.createStatement();
-      String str2 = "select GId, GName from GAME order by GId";
-      ResultSet localResultSet = localStatement.executeQuery(str2);
+      Statement stmt = conn.createStatement();
+      String qry = "select GId, GName from GAME order by GId";
+      ResultSet rs = stmt.executeQuery(qry);
 
       System.out.println("ID\tTitle");
       System.out.println("--\t-----");
-      while (localResultSet.next()) {
-        int i = localResultSet.getInt("GId");
-        String str3 = localResultSet.getString("GName");
-        System.out.println(i + "\t" + str3);
+      while (rs.next()) {
+        int gid = rs.getInt("GId");
+        String gname = rs.getString("GName");
+        System.out.println(gid + "\t" + gname);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
 
       System.out.print("Please select a game to view its reviews: ");
-      Scanner localScanner = new Scanner(System.in);
-      int j = localScanner.nextInt();
+      Scanner instream = new Scanner(System.in);
+      int j = instream.nextInt();
 
-      str2 = "select ReviewerName, ReviewRating from GAME, REVIEW, REVIEWER where GId = GameRevId and ReviewerNum = ReviewerId and GId = " + j + " order by ReviewerName";
-      localResultSet = localStatement.executeQuery(str2);
+      qry = "select ReviewerName, ReviewRating from GAME, REVIEW, REVIEWER where GId = GameRevId and ReviewerNum = ReviewerId and GId = " + j + " order by ReviewerName";
+      rs = stmt.executeQuery(qry);
 
       System.out.println("\nReviewer\tRating");
       System.out.println("--------\t------");
-      while (localResultSet.next()) {
-        String str4 = localResultSet.getString("ReviewerName");
-        int k = localResultSet.getInt("ReviewRating");
+      while (rs.next()) {
+        String str4 = rs.getString("ReviewerName");
+        int k = rs.getInt("ReviewRating");
         System.out.println(str4 + "\t" + k);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
 
   public static void gamePlatform() {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Statement localStatement = localConnection.createStatement();
-      String str2 = "select GName, PlatName from GAME, PLATFORM_SET, PLATFORM where GId = GamePlatId and PlatformId = PlatId order by PlatName";
-      ResultSet localResultSet = localStatement.executeQuery(str2);
+      Statement stmt = conn.createStatement();
+      String qry = "select GName, PlatName from GAME, PLATFORM_SET, PLATFORM where GId = GamePlatId and PlatformId = PlatId order by PlatName";
+      ResultSet rs = stmt.executeQuery(qry);
 
       System.out.println("Platform\tTitle");
       System.out.println("--------\t-----");
-      while (localResultSet.next()) {
-        String str3 = localResultSet.getString("GName");
-        String str4 = localResultSet.getString("PlatName");
-        System.out.println(str4 + "\t" + str3);
+      while (rs.next()) {
+        String gname = rs.getString("GName");
+        String platname = rs.getString("PlatName");
+        System.out.println(gname + "\t" + platname);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
 
   public static void dateRange() {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Scanner localScanner = new Scanner(System.in);
+      Scanner instream = new Scanner(System.in);
       System.out.print("Please enter a beginning year: ");
-      int i = localScanner.nextInt();
+      int i = instream.nextInt();
       System.out.print("Please enter an ending year: ");
-      int j = localScanner.nextInt();
+      int j = instream.nextInt();
 
-      Statement localStatement = localConnection.createStatement();
-      String str2 = "select GName, ReleaseDate from GAME where ReleaseDate >= " + i + " and ReleaseDate <= " + j + " order by GId";
-      ResultSet localResultSet = localStatement.executeQuery(str2);
+      Statement stmt = conn.createStatement();
+      String qry = "select GName, ReleaseDate from GAME where ReleaseDate >= " + i + " and ReleaseDate <= " + j + " order by GId";
+      ResultSet rs = stmt.executeQuery(qry);
 
       System.out.println("\nTitles in Date Range\tYear");
       System.out.println("--------------------\t----");
-      while (localResultSet.next()) {
-        String str3 = localResultSet.getString("GName");
-        int k = localResultSet.getInt("ReleaseDate");
-        System.out.println(str3 + "\t" + k);
+      while (rs.next()) {
+        String gname = rs.getString("GName");
+        int releasedate = rs.getInt("ReleaseDate");
+        System.out.println(gname + "\t" + releasedate);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
 
   public static void reviewRange() {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Scanner localScanner = new Scanner(System.in);
+      Scanner instream = new Scanner(System.in);
       System.out.print("Please enter a minimum review rating: ");
-      int i = localScanner.nextInt();
+      int i = instream.nextInt();
       System.out.print("Please enter a maximum review rating: ");
-      int j = localScanner.nextInt();
+      int j = instream.nextInt();
 
-      Statement localStatement = localConnection.createStatement();
-      String str2 = "select GName, ReviewerName, ReviewRating from GAME, REVIEW, REVIEWER where GId = GameRevId and ReviewerNum = ReviewerId and ReviewRating >= " + i + " and ReviewRating <= " + j + " order by GName";
-      ResultSet localResultSet = localStatement.executeQuery(str2);
+      Statement stmt = conn.createStatement();
+      String qry = "select GName, ReviewerName, ReviewRating from GAME, REVIEW, REVIEWER where GId = GameRevId and ReviewerNum = ReviewerId and ReviewRating >= " + i + " and ReviewRating <= " + j + " order by GName";
+      ResultSet rs = stmt.executeQuery(qry);
 
       System.out.println("\nTitles in Review Range\tReviewer\tRating");
       System.out.println("----------------------\t--------\t------");
-      while (localResultSet.next()) {
-        String str3 = localResultSet.getString("GName");
-        String str4 = localResultSet.getString("ReviewerName");
-        int k = localResultSet.getInt("ReviewRating");
-        System.out.println(str3 + "\t" + str4 + "\t" + k);
+      while (rs.next()) {
+        String gname = rs.getString("GName");
+        String reviewername = rs.getString("ReviewerName");
+        int reviewrating = rs.getInt("ReviewRating");
+        System.out.println(gname + "\t" + reviewername + "\t" + reviewrating);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
 
   public static void ratingSearch() {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Scanner localScanner = new Scanner(System.in);
+      Scanner instream = new Scanner(System.in);
       System.out.print("Please enter an ESRB rating: ");
-      String str2 = localScanner.nextLine();
+      String rate = instream.nextLine();
 
-      Statement localStatement = localConnection.createStatement();
-      String str3 = "select GName, Rating, ReleaseDate from GAME where Rating = '" + str2 + "' order by GName";
-      ResultSet localResultSet = localStatement.executeQuery(str3);
+      Statement stmt = conn.createStatement();
+      String qry = "select GName, Rating, ReleaseDate from GAME where Rating = '" + rate + "' order by GName";
+      ResultSet rs = stmt.executeQuery(qry);
 
       System.out.println("\nTitles with ESRB Rating\tRating\tReleaseDate");
       System.out.println("-----------------------\t------\t-----------");
-      while (localResultSet.next()) {
-        String str4 = localResultSet.getString("GName");
-        String str5 = localResultSet.getString("Rating");
-        int i = localResultSet.getInt("ReleaseDate");
-        System.out.println(str4 + "\t" + str5 + "\t" + i);
+      while (rs.next()) {
+        String gname = rs.getString("GName");
+        String rating = rs.getString("Rating");
+        int releasedate = rs.getInt("ReleaseDate");
+        System.out.println(gname + "\t" + rating + "\t" + releasedate);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
 
   public static void searchCharacters() {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Statement localStatement = localConnection.createStatement();
-      String str2 = "select CharId, CharName from MAIN_CHARACTERS order by CharId";
-      ResultSet localResultSet = localStatement.executeQuery(str2);
+      Statement stmt = conn.createStatement();
+      String qry = "select CharId, CharName from MAIN_CHARACTERS order by CharId";
+      ResultSet rs = stmt.executeQuery(qry);
 
       System.out.println("ID\tCharacter");
       System.out.println("--\t---------");
-      while (localResultSet.next()) {
-        int i = localResultSet.getInt("CharId");
-        String str3 = localResultSet.getString("CharName");
-        System.out.println(i + "\t" + str3);
+      while (rs.next()) {
+        int i = rs.getInt("CharId");
+        String charname = rs.getString("CharName");
+        System.out.println(i + "\t" + charname);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
 
       System.out.print("Please select a character to view game appearances: ");
-      Scanner localScanner = new Scanner(System.in);
-      int j = localScanner.nextInt();
+      Scanner instream = new Scanner(System.in);
+      int j = instream.nextInt();
 
-      str2 = "select GName, ReleaseDate from GAME, SET_CHARACTER, MAIN_CHARACTERS where GId = GameCharId and CharacterId = CharId and CharId = " + j + " order by ReleaseDate";
-      localResultSet = localStatement.executeQuery(str2);
+      qry = "select GName, ReleaseDate from GAME, SET_CHARACTER, MAIN_CHARACTERS where GId = GameCharId and CharacterId = CharId and CharId = " + j + " order by ReleaseDate";
+      rs = stmt.executeQuery(qry);
 
       System.out.println("\nAppearances\tRelease Date");
       System.out.println("-----------\t------------");
-      while (localResultSet.next()) {
-        String str4 = localResultSet.getString("GName");
-        int k = localResultSet.getInt("ReleaseDate");
+      while (rs.next()) {
+        String str4 = rs.getString("GName");
+        int k = rs.getInt("ReleaseDate");
         System.out.println(str4 + "\t" + k);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
 
   public static void genreSearch() {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Statement localStatement = localConnection.createStatement();
-      String str2 = "select GenreId, GenreName from GENRE order by GenreId";
-      ResultSet localResultSet = localStatement.executeQuery(str2);
+      Statement stmt = conn.createStatement();
+      String qry = "select GenreId, GenreName from GENRE order by GenreId";
+      ResultSet rs = stmt.executeQuery(qry);
 
       System.out.println("ID\tGenre");
       System.out.println("--\t-----");
-      while (localResultSet.next()) {
-        int i = localResultSet.getInt("GenreId");
-        String str3 = localResultSet.getString("GenreName");
-        System.out.println(i + "\t" + str3);
+      while (rs.next()) {
+        int i = rs.getInt("GenreId");
+        String genrename = rs.getString("GenreName");
+        System.out.println(i + "\t" + genrename);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
 
       System.out.print("Please select a genre to view the corresponding games: ");
-      Scanner localScanner = new Scanner(System.in);
-      int j = localScanner.nextInt();
+      Scanner instream = new Scanner(System.in);
+      int j = instream.nextInt();
 
-      str2 = "select GName, Rating, ReleaseDate from GAME, GENRE where GenreType = GenreId and GenreId = " + j + " order by ReleaseDate";
-      localResultSet = localStatement.executeQuery(str2);
+      qry = "select GName, Rating, ReleaseDate from GAME, GENRE where GenreType = GenreId and GenreId = " + j + " order by ReleaseDate";
+      rs = stmt.executeQuery(qry);
 
       System.out.println("\nSelected Titles\tRating\tRelease Date");
       System.out.println("---------------\t------\t------------");
-      while (localResultSet.next()) {
-        String str4 = localResultSet.getString("GName");
-        String str5 = localResultSet.getString("Rating");
-        int k = localResultSet.getInt("ReleaseDate");
+      while (rs.next()) {
+        String str4 = rs.getString("GName");
+        String str5 = rs.getString("Rating");
+        int k = rs.getInt("ReleaseDate");
         System.out.println(str4 + "\t" + str5 + "\t" + k);
       }
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
 
   public static void insertGame()
   {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost:1520/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Statement localStatement = localConnection.createStatement();
-      String str2 = "select count(GId) from GAME";
-      ResultSet localResultSet = localStatement.executeQuery(str2);
+      Statement stmt = conn.createStatement();
+      String qry = "select count(GId) from GAME";
+      ResultSet rs = stmt.executeQuery(qry);
 
-      int i = 1;
-      while (localResultSet.next())
+      int games = 1;
+      while (rs.next())
       {
-        i = localResultSet.getInt("1");
+        games = rs.getInt("1");
       }
-      i++;
+      games++;
 
-      Scanner localScanner = new Scanner(System.in);
+      Scanner instream = new Scanner(System.in);
       System.out.print("Please enter the new game title: ");
-      String str3 = localScanner.nextLine();
-      System.out.print("\nPlease enter the developer ID: ");
-      int j = localScanner.nextInt();
-      System.out.print("\nPlease enter the publisher ID: ");
-      int k = localScanner.nextInt();
-      System.out.print("\nPlease enter the genre ID: ");
-      int m = localScanner.nextInt();
+      String title = instream.nextLine();
       System.out.print("\nPlease enter the ESRB rating: ");
-      String str4 = localScanner.nextLine();
+      String rating = instream.nextLine();
+      System.out.print("\nPlease enter the developer ID: ");
+      int developer = instream.nextInt();
+      System.out.print("\nPlease enter the publisher ID: ");
+      int publisher = instream.nextInt();
+      System.out.print("\nPlease enter the genre ID: ");
+      int genre = instream.nextInt();
       System.out.print("\nPlease enter the release year: ");
-      int n = localScanner.nextInt();
+      int year = instream.nextInt();
 
-      String str5 = "insert into GAME values (" + i + ", '" + str3 + "', " + j + ", " + k + ", " + m + ", '" + str4 + "', " + n + ")";
-      localStatement.executeUpdate(str5);
+      String cmd = "insert into GAME values (" + games + ", '" + title + "', " + developer + ", " + publisher + ", " + genre + ", '" + rating + "', " + year + ")";
+      stmt.executeUpdate(cmd);
 
       System.out.print("\n");
-      localResultSet.close();
+      rs.close();
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
 
   public static void insertDeveloper()
   {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Statement localStatement = localConnection.createStatement();
-      String str2 = "select count(DevId) from DEVELOPER";
-      ResultSet localResultSet = localStatement.executeQuery(str2);
+      Statement stmt = conn.createStatement();
+      String qry = "select count(DevId) from DEVELOPER";
+      ResultSet rs = stmt.executeQuery(qry);
 
-      int i = 1;
-      while (localResultSet.next())
+      int developers = 1;
+      while (rs.next())
       {
-        i = localResultSet.getInt("1");
+        developers = rs.getInt("1");
       }
-      i++;
+      developers++;
 
-      Scanner localScanner = new Scanner(System.in);
+      Scanner instream = new Scanner(System.in);
       System.out.print("Please enter the new developer's name: ");
-      String str3 = localScanner.nextLine();
+      String developername = instream.nextLine();
 
-      String str4 = "insert into DEVELOPER values (" + i + ", '" + str3 + "')";
-      localStatement.executeUpdate(str4);
+      String cmd = "insert into DEVELOPER values (" + developers + ", '" + developername + "')";
+      stmt.executeUpdate(cmd);
 
       System.out.print("\n");
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
 
   public static void insertPublisher()
   {
-    Connection localConnection = null;
+    Connection conn = null;
     try {
-      ClientDriver localClientDriver = new ClientDriver();
-      String str1 = "jdbc:derby://localhost/videogamedb;create=false";
-      localConnection = localClientDriver.connect(str1, null);
+      Driver d = new ClientDriver();
+      String url = "jdbc:derby://localhost/videogamedb;create=false";
+      conn = d.connect(url, null);
 
-      Statement localStatement = localConnection.createStatement();
-      String str2 = "select count(PubId) from PUBLISHER";
-      ResultSet localResultSet = localStatement.executeQuery(str2);
+      Statement stmt = conn.createStatement();
+      String qry = "select count(PubId) from PUBLISHER";
+      ResultSet rs = stmt.executeQuery(qry);
 
-      int i = 1;
-      while (localResultSet.next())
+      int publishers = 1;
+      while (rs.next())
       {
-        i = localResultSet.getInt("1");
+        publishers = rs.getInt("1");
       }
-      i++;
+      publishers++;
 
-      Scanner localScanner = new Scanner(System.in);
+      Scanner instream = new Scanner(System.in);
       System.out.print("Please enter the new publisher's name: ");
-      String str3 = localScanner.nextLine();
+      String publishername = instream.nextLine();
 
-      String str4 = "insert into PUBLISHER values (" + i + ", '" + str3 + "')";
-      localStatement.executeUpdate(str4);
+      String cmd = "insert into PUBLISHER values (" + publishers + ", '" + publishername + "')";
+      stmt.executeUpdate(cmd);
 
       System.out.print("\n");
     }
-    catch (SQLException localSQLException3) {
-      localSQLException2.printStackTrace();
+    catch (SQLException e) {
+      e.printStackTrace();
     }
     finally {
       try {
-        if (localConnection != null)
-          localConnection.close();
+        if (conn != null)
+          conn.close();
       }
-      catch (SQLException localSQLException4) {
-        localSQLException4.printStackTrace();
+      catch (SQLException e) {
+        e.printStackTrace();
       }
     }
   }
